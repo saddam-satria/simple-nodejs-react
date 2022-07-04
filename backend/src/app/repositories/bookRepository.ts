@@ -1,5 +1,5 @@
 import connection from '../config/database';
-import { IBook } from '../interfaces/bookInterface';
+import { IBook, IPayloadBook } from '../interfaces/bookInterface';
 
 class BookRepository {
   public async getAll(
@@ -23,6 +23,31 @@ class BookRepository {
       count: await connection.books.count({ take, skip }),
       books: await connection.books.findMany({ select: columns, skip, take }),
     };
+  }
+  public async create({
+    author,
+    cover,
+    currentPage,
+    description,
+    finished,
+    publisher,
+    reading,
+    title,
+    totalPage,
+  }: IPayloadBook) {
+    return await connection.books.create({
+      data: {
+        author,
+        publisher,
+        title,
+        totalPage,
+        cover,
+        currentPage,
+        description,
+        finished,
+        reading,
+      },
+    });
   }
 }
 

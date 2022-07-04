@@ -27,6 +27,55 @@ class BookController {
       data: {
         count: data.count,
         books: data.books,
+        next:
+          page &&
+          (data.count === 0 && parseInt(page as string) > 1
+            ? parseInt(page as string) + 1
+            : null),
+        prev: page && parseInt(page as string) === 1 ? null : page,
+      },
+    });
+  }
+
+  public async createBook(request: Request, response: Response) {
+    const {
+      title,
+      author,
+      publisher,
+      finished,
+      reading,
+      currentPage,
+      totalPage,
+      cover,
+      description,
+    } = request.body;
+
+    const result = await this.bookService.insertBook({
+      author,
+      currentPage: currentPage as number,
+      finished: finished as boolean,
+      publisher,
+      reading: reading as boolean,
+      title,
+      totalPage: totalPage as number,
+      cover,
+      description,
+    });
+
+    if (!result)
+      return response.status(404).json({
+        status: 'error',
+        message: 'request body cannot empty',
+        data: null,
+        code: request.statusCode,
+      });
+
+    return response.status(201).json({
+      status: 'success',
+      message: 'success create new book',
+      code: request.statusCode,
+      data: {
+        new: result,
       },
     });
   }

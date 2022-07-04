@@ -9,5 +9,16 @@ interface IBook {
   cover?: boolean;
   description?: boolean;
 }
+interface IPayloadBook {
+  title: string;
+  author: string;
+  publisher: string;
+  finished: boolean;
+  reading: boolean;
+  currentPage: number;
+  totalPage: number;
+  description?: string;
+  cover?: string;
+}
 
-export { IBook };
+export { IBook, IPayloadBook };
