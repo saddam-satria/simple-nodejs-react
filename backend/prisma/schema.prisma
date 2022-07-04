@@ -1,0 +1,25 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Books{
+  id String @id @default(uuid())
+  title String @db.VarChar(100)
+  author String @db.VarChar(150)
+  publisher String @db.VarChar(100)
+  finished Boolean @default(false) @db.TinyInt
+  reading Boolean @default(false) @db.TinyInt
+  currentPage Int @default(0) @db.Int
+  totalPage Int @db.Int
+  cover String? @db.VarChar(255)
+  description String? @db.LongText
+}
