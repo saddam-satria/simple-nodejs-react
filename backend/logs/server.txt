@@ -1,3 +1,0 @@
-2022-07-04T07:12:19.534Z	 info 	 database connected
-2022-07-04T07:12:19.535Z	 info 	 server running on port 5000
-2022-07-04T07:12:25.325Z	 info 	 hit endpoint of root
