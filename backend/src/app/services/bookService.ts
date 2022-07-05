@@ -22,7 +22,7 @@ class BookService {
     error: boolean;
     message?: string;
     data?: IPayloadBook;
-    statuCode?: number;
+    statusCode?: number;
   }> {
     const validate = this.validation({
       title,
@@ -35,7 +35,7 @@ class BookService {
       return {
         error: true,
         message: validate.message,
-        statuCode: validate.statusCode,
+        statusCode: validate.statusCode,
       };
 
     try {
@@ -67,7 +67,7 @@ class BookService {
       };
     } catch (error) {
       log.server.setLog({ log: error.message, type: 'error' });
-      return { error: true, message: error.message, statuCode: 400 };
+      return { error: true, message: error.message, statusCode: 400 };
     }
   }
   public async deleteBook(id?: string): Promise<{
@@ -109,7 +109,6 @@ class BookService {
 
     try {
       const book = await this.bookRepository.getByID(id);
-
       if (!book) throw new Error('Book Not Found');
 
       return {
@@ -134,6 +133,77 @@ class BookService {
         error: true,
         statusCode: 404,
         message: error.message,
+      };
+    }
+  }
+
+  public async updateBook(
+    {
+      author,
+      currentPage,
+      finished,
+      publisher,
+      reading,
+      title,
+      totalPage,
+      cover,
+      description,
+    }: IPayloadBook,
+    id?: string
+  ): Promise<{
+    error: boolean;
+    message?: string;
+    data?: IPayloadBook;
+    statusCode?: number;
+  }> {
+    try {
+      const book = await this.getBook(id);
+      const validate = this.validation({
+        title,
+        currentPage,
+        author,
+        publisher,
+        totalPage,
+      });
+      if (!id) throw new Error(`${'required ID'}-${400}`);
+      if (validate.isError)
+        throw new Error(`${validate.message}-${validate.statusCode}`);
+      if (book.error) throw new Error(`${book.message}-${book.statusCode}`);
+
+      const updatedBook = await this.bookRepository.update(id, {
+        author,
+        currentPage,
+        finished,
+        publisher,
+        reading,
+        title,
+        totalPage,
+        cover,
+        description,
+      });
+
+      if (!updatedBook) throw new Error('error, somethings wrong');
+
+      return {
+        error: false,
+        message: 'success update book',
+        data: {
+          author,
+          currentPage,
+          finished,
+          publisher,
+          reading,
+          title,
+          totalPage,
+          cover,
+          description,
+        },
+      };
+    } catch (error) {
+      return {
+        error: true,
+        message: error.message && error.message.split('-')[0],
+        statusCode: error.message && error.message.split('-')[1],
       };
     }
   }

@@ -14,6 +14,7 @@ router
 router
   .route('/books/:id')
   .get((req, res) => bookController.getBook(req, res))
-  .delete((req, res) => bookController.deleteBook(req, res));
+  .delete((req, res) => bookController.deleteBook(req, res))
+  .put((req, res) => bookController.updateBook(req, res));
 
 export default router;

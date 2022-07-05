@@ -56,6 +56,35 @@ class BookRepository {
   public async destroy(id: string) {
     return await connection.books.delete({ where: { id } });
   }
+  public async update(
+    id: string,
+    {
+      author,
+      currentPage,
+      finished,
+      publisher,
+      reading,
+      title,
+      totalPage,
+      cover,
+      description,
+    }: IPayloadBook
+  ) {
+    return await connection.books.update({
+      where: { id },
+      data: {
+        author,
+        cover,
+        currentPage,
+        description,
+        finished,
+        publisher,
+        reading,
+        title,
+        totalPage,
+      },
+    });
+  }
 }
 
 export default BookRepository;

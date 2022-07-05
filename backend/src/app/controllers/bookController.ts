@@ -83,10 +83,10 @@ class BookController {
       .then((res) => {
         if (res.error) {
           log.server.setLog({
-            log: `request POST /books ${res.statuCode}`,
+            log: `request POST /books ${res.statusCode}`,
             type: 'error',
           });
-          return response.status(res.statuCode ? res.statuCode : 400).json({
+          return response.status(res.statusCode ? res.statusCode : 400).json({
             status: 'error',
             message: res.message ? res.message : null,
             data: null,
@@ -169,6 +169,61 @@ class BookController {
       code: 200,
       data: {
         id: result.id,
+      },
+    });
+  }
+  public async updateBook(request: Request, response: Response) {
+    const {
+      title,
+      author,
+      publisher,
+      finished,
+      reading,
+      currentPage,
+      totalPage,
+      cover,
+      description,
+    } = request.body;
+    const { id } = request.params;
+
+    const result = await this.bookService.updateBook(
+      {
+        author,
+        currentPage: currentPage as number,
+        finished: finished as boolean,
+        publisher,
+        reading: reading as boolean,
+        title,
+        totalPage: totalPage as number,
+        cover,
+        description,
+      },
+      id
+    );
+
+    if (result.error) {
+      log.server.setLog({
+        log: `request PUT /books/${id} ${result.statusCode}`,
+        type: 'error',
+      });
+      return response.status(result.statusCode ? result.statusCode : 400).json({
+        status: 'error',
+        message: result.message,
+        code: result.statusCode ? result.statusCode : 400,
+        data: null,
+      });
+    }
+
+    log.server.setLog({
+      log: `request PUT /books/${id} 200`,
+      type: 'info',
+    });
+    return response.status(200).json({
+      status: 'success',
+      message: `success update book ${id}`,
+      code: 200,
+      data: {
+        updatedBook: result.data,
       },
     });
   }
