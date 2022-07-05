@@ -18,7 +18,12 @@ class BookService {
     reading,
     title,
     totalPage,
-  }: IPayloadBook): Promise<boolean | IPayloadBook> {
+  }: IPayloadBook): Promise<{
+    error: boolean;
+    message?: string;
+    data?: IPayloadBook;
+    statuCode?: number;
+  }> {
     const validate = this.validation({
       title,
       author,
@@ -26,7 +31,13 @@ class BookService {
       totalPage,
       currentPage,
     });
-    if (!validate) return false;
+    if (validate.isError)
+      return {
+        error: true,
+        message: validate.message,
+        statuCode: validate.statusCode,
+      };
+
     try {
       await this.bookRepository.create({
         author,
@@ -41,19 +52,22 @@ class BookService {
       });
 
       return {
-        author,
-        cover,
-        currentPage,
-        finished,
-        publisher,
-        reading,
-        title,
-        totalPage,
-        description,
+        error: false,
+        data: {
+          author,
+          cover,
+          currentPage,
+          finished,
+          publisher,
+          reading,
+          title,
+          totalPage,
+          description,
+        },
       };
     } catch (error) {
       log.server.setLog({ log: error.message, type: 'error' });
-      return false;
+      return { error: true, message: error.message, statuCode: 400 };
     }
   }
 
@@ -69,12 +83,24 @@ class BookService {
     publisher?: string;
     totalPage?: number;
     currentPage: number;
-  }): boolean {
-    if (!title || !author || !publisher || !totalPage) return false;
+  }): { isError: boolean; message?: string; statusCode?: number } {
+    if (!title || !author || !publisher || !totalPage)
+      return {
+        isError: true,
+        message: 'request body cannot be empty',
+        statusCode: 400,
+      };
 
-    if (currentPage > totalPage) return false;
+    if (currentPage > totalPage)
+      return {
+        isError: true,
+        message: 'current page size too larger than total page',
+        statusCode: 400,
+      };
 
-    return true;
+    return {
+      isError: false,
+    };
   }
 }
 
