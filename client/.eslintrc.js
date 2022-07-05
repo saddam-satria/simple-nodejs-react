@@ -21,6 +21,7 @@ module.exports = {
   },
   plugins: ['react', 'react-hooks', 'testing-library'],
   rules: {
+    'arrow-body-style': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     'react/no-deprecated': 'warn',
@@ -44,6 +45,7 @@ module.exports = {
     'comma-dangle': ['off', 'never'],
     'jsx-a11y/click-events-have-key-events': 'off',
     'jsx-a11y/no-noninteractive-element-interactions': 'off',
+    'jsx-a11y/no-static-element-interactions': 'off',
     'no-console': 'off',
     'no-duplicate-imports': 'warn',
     'no-unused-vars': 'warn',
@@ -68,7 +70,6 @@ module.exports = {
     'object-curly-spacing': ['warn', 'always'],
     'import/prefer-default-export': 'off',
     'no-underscore-dangle': 'off',
-    'arrow-body-style': ['warn', 'always'],
     'default-param-last': 'off',
   },
   settings: {
