@@ -15,7 +15,15 @@ const writeLogToTxt = (filename: string, log: string, logType?: string) => {
 
   fs.appendFile(
     path.join(basePath, `${filename}.txt`),
-    `${new Date().toISOString()}\t ${logType && logType} \t ${log}\n`,
+    `${new Date().toLocaleString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      hour12: false,
+      minute: '2-digit',
+      second: '2-digit',
+    })}\t ${logType && logType} \t ${log}\n`,
     {},
     (error: NodeJS.ErrnoException | null) => {
       if (error) throw error;
