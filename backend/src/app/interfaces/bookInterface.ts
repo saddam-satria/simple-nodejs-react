@@ -8,6 +8,7 @@ interface IBook {
   totalPage?: boolean;
   cover?: boolean;
   description?: boolean;
+  id?: boolean;
 }
 interface IPayloadBook {
   title: string;

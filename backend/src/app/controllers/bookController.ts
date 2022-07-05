@@ -35,7 +35,7 @@ class BookController {
       } 200`,
       type: 'info',
     });
-    response.status(200).json({
+    return response.status(200).json({
       status: 'success',
       code: request.statusCode,
       message: 'get books data',
@@ -94,7 +94,10 @@ class BookController {
           });
         }
 
-        log.server.setLog({ log: 'request POST /books 201', type: 'info' });
+        log.server.setLog({
+          log: `request POST /books 201`,
+          type: 'info',
+        });
         return response.status(201).json({
           status: 'success',
           message: 'success create new book',
@@ -104,6 +107,70 @@ class BookController {
           },
         });
       });
+  }
+  public async getBook(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const result = await this.bookService.getBook(id);
+
+    if (result.error) {
+      log.server.setLog({
+        log: `request GET /books/${id} ${result.statusCode}`,
+        type: 'error',
+      });
+      return response.status(result.statusCode ? result.statusCode : 400).json({
+        status: 'error',
+        message: result.message,
+        code: result.statusCode,
+        data: null,
+      });
+    }
+
+    log.server.setLog({
+      log: `request GET /books/${id} 200`,
+      type: 'info',
+    });
+    return response.status(200).json({
+      status: 'success',
+      message: `success get book ${id}`,
+      code: 200,
+      data: {
+        id: result.id,
+        ...result.data,
+      },
+    });
+  }
+  public async deleteBook(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const result = await this.bookService.deleteBook(id);
+
+    if (result.error) {
+      log.server.setLog({
+        log: `request DELETE /books/${id} ${result.statusCode}`,
+        type: 'error',
+      });
+
+      return response.status(result.statusCode ? result.statusCode : 400).json({
+        status: 'error',
+        message: result.message,
+        code: result.statusCode,
+        data: null,
+      });
+    }
+    log.server.setLog({
+      log: `request DELETE /books/${id} 200`,
+      type: 'info',
+    });
+
+    return response.status(200).json({
+      status: 'success',
+      message: `success delete book ${id}`,
+      code: 200,
+      data: {
+        id: result.id,
+      },
+    });
   }
 }
 

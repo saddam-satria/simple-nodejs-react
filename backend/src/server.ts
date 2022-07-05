@@ -10,7 +10,8 @@ import { Prisma } from '@prisma/client';
 (() => {
   dotenv.config();
   const app = express();
-  const PORT: undefined | string | number = process.env.PORT || 5000;
+  const PORT: undefined | string | number =
+    (process.env.PORT as string) || 5000;
 
   app.use(cors());
   app.use(express.json());

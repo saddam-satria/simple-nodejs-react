@@ -6,6 +6,7 @@ class BookRepository {
     page = 1,
     take = 5,
     columns: IBook = {
+      id: true,
       author: true,
       currentPage: true,
       finished: true,
@@ -48,6 +49,12 @@ class BookRepository {
         reading,
       },
     });
+  }
+  public async getByID(id: string) {
+    return await connection.books.findFirst({ where: { id } });
+  }
+  public async destroy(id: string) {
+    return await connection.books.delete({ where: { id } });
   }
 }
 
