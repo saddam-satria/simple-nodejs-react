@@ -1,0 +1,29 @@
+.container {
+  width: 50%;
+  margin: 0px auto;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.react-logo {
+  width: 240px;
+  height: 240px;
+  object-fit: contain;
+  animation: spin infinite 5s linear;
+}
+.flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

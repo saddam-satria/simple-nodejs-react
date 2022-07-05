@@ -1,0 +1,14 @@
+{
+  "presets": [
+    ["@babel/env", { "targets": "defaults", "useBuiltIns": false }],
+    "@babel/react"
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "regrenator": true
+      }
+    ]
+  ]
+}
