@@ -4,7 +4,7 @@ import { FaHome } from 'react-icons/fa';
 const SidebarComponent = ({ active }) => {
   return (
     <div
-      className={`absolute -translate-x-80 ${
+      className={`fixed -translate-x-80 ${
         active && 'translate-x-0'
       }  bg-orange-600 h-screen w-1/2 md:w-1/6`}
     >

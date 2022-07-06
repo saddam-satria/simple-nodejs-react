@@ -82,7 +82,7 @@ module.exports = {
     client: {
       logging: 'log',
     },
-    hot: false,
+    hot: true,
     historyApiFallback: true,
     host: HOST,
     static: resolvePath('public'),

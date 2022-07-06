@@ -1,10 +1,11 @@
 import React from 'react';
 import { IoMdNotifications } from 'react-icons/io';
+import ContainerComponent from './container';
 
 const NavbarComponent = ({ active, setActive }) => {
   return (
     <div className="bg-orange-400 py-4">
-      <div className="container mx-auto">
+      <ContainerComponent>
         <div className="flex">
           <div className={`flex ${active && 'ml-52'} items-center`}>
             <div
@@ -25,7 +26,7 @@ const NavbarComponent = ({ active, setActive }) => {
             </h3>
           </div>
         </div>
-      </div>
+      </ContainerComponent>
     </div>
   );
 };
