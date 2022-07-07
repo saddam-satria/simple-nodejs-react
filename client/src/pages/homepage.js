@@ -21,7 +21,7 @@ function Homepage() {
       />
       <ContainerComponent>
         <div className={`ml-0 ${sidebarActivated && 'md:ml-52'} my-6 `}>
-          <Link to={'/'}>
+          <Link to={'/book/new'}>
             <span className="capitalize py-2 px-10 bg-orange-400 text-white rounded-md">
               new book
             </span>
