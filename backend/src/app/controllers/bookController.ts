@@ -13,12 +13,14 @@ class BookController {
     const { page, take } = request.query;
 
     let data = await this.bookService.getBooks();
+    let nextData;
 
     if (page || take) {
       data = await this.bookService.getBooks(
         page ? parseInt(page as string) : undefined,
         take ? parseInt(take as string) : undefined
       );
+      nextData = await this.bookService.getBooks(parseInt(page as string) + 1);
     }
 
     log.server.setLog({
@@ -35,6 +37,12 @@ class BookController {
       } 200`,
       type: 'info',
     });
+
+    const next =
+      page && nextData && nextData.books.length > 0
+        ? parseInt(page as string) + 1
+        : null;
+
     return response.status(200).json({
       status: 'success',
       code: request.statusCode,
@@ -42,15 +50,13 @@ class BookController {
       data: {
         count: data.count,
         books: data.books,
-        next:
-          page &&
-          (data.count > 0 && parseInt(page as string) > 0
-            ? parseInt(page as string) + 1
-            : null),
+        next,
         prev:
-          (page && parseInt(page as string)) || parseInt(page as string) - 1 < 1
-            ? null
-            : parseInt(page as string) - 1,
+          page &&
+          parseInt(page as string) > 0 &&
+          parseInt(page as string) - 1 !== 0
+            ? parseInt(page as string) - 1
+            : null,
       },
     });
   }

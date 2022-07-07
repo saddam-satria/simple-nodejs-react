@@ -22,7 +22,12 @@ class BookRepository {
 
     return {
       count: await connection.books.count({ take, skip }),
-      books: await connection.books.findMany({ select: columns, skip, take }),
+      books: await connection.books.findMany({
+        select: columns,
+        skip,
+        take,
+        orderBy: { createdAt: 'asc' },
+      }),
     };
   }
   public async create({
