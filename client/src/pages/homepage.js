@@ -12,6 +12,7 @@ function Homepage() {
   const [sidebarActivated, setSidebarActivated] = useState(false);
   const { loading, response, error } = useFetch.useGet('books');
 
+  console.log(loading);
   return (
     <div>
       <SidebarComponent active={sidebarActivated} />
@@ -33,7 +34,7 @@ function Homepage() {
             </div>
           )}
 
-          {!loading && error && (
+          {loading && !error && (
             <div className="my-14">
               <LoadingComponent />
             </div>

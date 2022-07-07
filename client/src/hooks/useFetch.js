@@ -23,10 +23,10 @@ const UseGet = (
 
           if (result.status >= 400) throw new Error(result.data.message);
           setResponse(result);
-
           setLoading(false);
         } catch (err) {
           setError(err);
+          setLoading(false);
         }
       })();
     }
@@ -44,8 +44,32 @@ const UseGet = (
   };
 };
 
+const UsePost = (
+  path,
+  payload,
+  headers = { 'content-type': 'application/json' }
+) => {
+  return (async () => {
+    try {
+      const result = await axios.post(path, JSON.stringify(payload), headers);
+      if (result.status >= 400) throw new Error(result.data.message);
+      return {
+        error: false,
+        response: result,
+        loading: false,
+      };
+    } catch (err) {
+      return {
+        error: err,
+        loading: false,
+      };
+    }
+  })();
+};
+
 const useFetch = {
   useGet: UseGet,
+  usePost: UsePost,
 };
 
 export default useFetch;

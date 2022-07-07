@@ -72,6 +72,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'no-underscore-dangle': 'off',
     'default-param-last': 'off',
+    radix: 'off',
   },
   settings: {
     react: {
