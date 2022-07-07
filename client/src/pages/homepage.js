@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ContainerComponent from '../components/container';
 import LoadingComponent from '../components/loading';
@@ -10,9 +10,21 @@ import useFetch from '../hooks/useFetch';
 
 function Homepage() {
   const [sidebarActivated, setSidebarActivated] = useState(false);
-  const { loading, response, error } = useFetch.useGet('books');
+  const [page, setPage] = useState(1);
+  const [books, setBooks] = useState(null);
+  const { loading, response, error } = useFetch.useGet('books', `page=${page}`);
 
-  console.log(loading);
+  useEffect(() => {
+    if (response) {
+      const { data } = response.data;
+      if (!books) {
+        setBooks(data.books);
+        return;
+      }
+      setBooks([...books, ...data.books]);
+    }
+  }, [response]);
+
   return (
     <div>
       <SidebarComponent active={sidebarActivated} />
@@ -44,7 +56,8 @@ function Homepage() {
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
               {!loading &&
                 !error &&
-                response.data.data.books.map((book, index) => {
+                books &&
+                books.map((book, index) => {
                   return (
                     <div
                       className="bg-gray-50 rounded-lg py-5 px-3"
@@ -98,6 +111,18 @@ function Homepage() {
                     </div>
                   );
                 })}
+            </div>
+            <div className="my-6">
+              <div className="flex justify-center">
+                {!loading && !error && response.data.data.next && (
+                  <span
+                    onClick={() => setPage(page + 1)}
+                    className="px-6 py-2 bg-orange-600 text-white text-md font-medium rounded-md"
+                  >
+                    Load More
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         </div>

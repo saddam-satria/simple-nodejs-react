@@ -35,7 +35,7 @@ const UseGet = (
       mounted.current = false;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [parameters]);
 
   return {
     loading,

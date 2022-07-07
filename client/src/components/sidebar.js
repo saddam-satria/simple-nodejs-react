@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaHome } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const SidebarComponent = ({ active }) => {
   return (
@@ -14,9 +15,11 @@ const SidebarComponent = ({ active }) => {
       <div className="py-12 ">
         <ul className="px-6 flex flex-col gap-y-8">
           <li className="cursor-pointer">
-            <span className="flex items-center gap-x-2 text-white font-semibold">
-              <FaHome /> Home
-            </span>
+            <Link to={'/'}>
+              <span className="flex items-center gap-x-2 text-white font-semibold">
+                <FaHome /> Home
+              </span>
+            </Link>
           </li>
         </ul>
       </div>

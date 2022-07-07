@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ContainerComponent from '../../components/container';
 import NavbarComponent from '../../components/navbar';
 import SidebarComponent from '../../components/sidebar';
@@ -11,6 +12,7 @@ import useFetch from '../../hooks/useFetch';
 
 const FormAddBook = () => {
   const [sidebarActivated, setSidebarActivated] = useState(false);
+  const navigate = useNavigate();
   const [payload, setPayload] = useState({
     title: '',
     author: '',
@@ -103,6 +105,7 @@ const FormAddBook = () => {
           title: '',
           totalPage: '',
         });
+        navigate('/');
       })
       .catch((error) => setFailure(error));
   };
@@ -281,9 +284,9 @@ const FormAddBook = () => {
                     rows={'5'}
                     cols={'5'}
                     autoComplete={'off'}
-                  >
-                    {payload.description}
-                  </textarea>
+                    value={payload.description}
+                  />
+
                   {validate.description.error && (
                     <span className="text-xs text-red-600 font-medium">
                       {validate.description.message}
