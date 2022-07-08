@@ -182,7 +182,7 @@ class BookService {
         description,
       });
 
-      if (!updatedBook) throw new Error('error, somethings wrong');
+      if (!updatedBook) throw new Error(`${'error, somethings wrong'}-${400}`);
 
       return {
         error: false,

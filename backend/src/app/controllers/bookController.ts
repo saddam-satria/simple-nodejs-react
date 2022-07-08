@@ -195,12 +195,12 @@ class BookController {
     const result = await this.bookService.updateBook(
       {
         author,
-        currentPage: currentPage as number,
+        currentPage: parseInt(currentPage as string),
         finished: finished as boolean,
         publisher,
         reading: reading as boolean,
         title,
-        totalPage: totalPage as number,
+        totalPage: parseInt(totalPage as string),
         cover,
         description,
       },
