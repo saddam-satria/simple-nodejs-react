@@ -67,6 +67,29 @@ const UsePost = (
   })();
 };
 
+const UsePut = (
+  path,
+  payload,
+  headers = { 'content-type': 'application/json' }
+) => {
+  return (async () => {
+    try {
+      const result = await axios.put(path, JSON.stringify(payload), headers);
+      if (result.status >= 400) throw new Error(result.data.message);
+      return {
+        error: false,
+        response: result,
+        loading: false,
+      };
+    } catch (err) {
+      return {
+        error: err,
+        loading: false,
+      };
+    }
+  })();
+};
+
 const UseDelete = (path, headers = { 'content-type': 'application/json' }) => {
   return (async () => {
     try {
@@ -90,6 +113,7 @@ const useFetch = {
   useGet: UseGet,
   usePost: UsePost,
   useDelete: UseDelete,
+  usePut: UsePut,
 };
 
 export default useFetch;

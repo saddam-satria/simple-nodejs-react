@@ -67,12 +67,12 @@ const DetailBook = () => {
               </div>
               <div className="flex flex-col gap-y-1">
                 <div className="bg-gray-600 py-2 px-4 w-full rounded-lg">
-                  <span className="text-lg text-white capitalize">
+                  <span className="text-lg text-white cursor-default">
                     {book.title}
                   </span>
                 </div>
                 <div className="bg-gray-600 py-2 px-4 w-full rounded-lg">
-                  <span className="text-lg text-white capitalize">
+                  <span className="text-lg text-white cursor-default">
                     {book.author}
                   </span>{' '}
                 </div>
@@ -82,30 +82,38 @@ const DetailBook = () => {
                   </span>{' '}
                 </div>
                 <div className="bg-gray-600 py-2 px-4 w-full rounded-lg">
-                  <span className="text-lg text-white capitalize">
+                  <span className="text-lg text-white cursor-default">
                     {book.currentPage}
                   </span>{' '}
                 </div>
                 <div className="bg-gray-600 py-2 px-4 w-full rounded-lg">
-                  <span className="text-lg text-white capitalize">
+                  <span className="text-lg text-white cursor-default">
                     {book.totalPage}
                   </span>{' '}
                 </div>
                 <div className="bg-gray-600 py-2 px-4 w-full rounded-lg">
-                  <span className="text-lg text-white capitalize">
+                  <span className="text-lg text-white cursor-default">
                     {book.finished ? 'finish' : 'Not Yet'}
                   </span>{' '}
                 </div>
                 <div className="bg-gray-600 py-2 px-4 w-full rounded-lg">
-                  <span className="text-lg text-white capitalize">
+                  <span className="text-lg text-white cursor-default">
                     {book.reading ? 'Still Reading' : 'Stop Reading'}
                   </span>{' '}
                 </div>
                 <div className="bg-gray-600 py-2 px-4 w-full rounded-lg">
-                  <span className="text-lg text-white">
+                  <span className="text-lg text-white cursor-default">
                     {book.totalPage - book.currentPage} Page Until Finish
                   </span>
                 </div>
+
+                <textarea
+                  className="text-lg bg-gray-600 text-white capitalize resize-none  py-2 px-4 w-full rounded-lg focus:outline-none focus:border-none cursor-default"
+                  rows={'5'}
+                  cols={'5'}
+                  value={book.description}
+                  readOnly
+                />
               </div>
             </div>
           )}

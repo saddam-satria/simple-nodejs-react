@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FaTrash } from 'react-icons/fa';
+import { FaPen, FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import ContainerComponent from '../components/container';
 import LoadingComponent from '../components/loading';
@@ -104,13 +104,23 @@ function Homepage() {
                       }}
                       key={index}
                     >
-                      <div className="flex justify-end pt-4">
-                        <span
-                          className="cursor-pointer"
-                          onClick={() => onDeleteBook(book.id)}
-                        >
-                          <FaTrash color="red" size={'1em'} />
-                        </span>
+                      <div className="flex mt-4">
+                        <div>
+                          <Link to={`book/${book.id}/update`}>
+                            <span className="cursor-pointer">
+                              <FaPen color="blue" size={'1em'} />
+                            </span>
+                          </Link>
+                        </div>
+
+                        <div className="ml-auto">
+                          <span
+                            className="cursor-pointer"
+                            onClick={() => onDeleteBook(book.id)}
+                          >
+                            <FaTrash color="red" size={'1em'} />
+                          </span>
+                        </div>
                       </div>
                       <div className="py-5">
                         <div>
