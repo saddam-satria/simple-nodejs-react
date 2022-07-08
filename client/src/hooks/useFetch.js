@@ -67,9 +67,29 @@ const UsePost = (
   })();
 };
 
+const UseDelete = (path, headers = { 'content-type': 'application/json' }) => {
+  return (async () => {
+    try {
+      const result = await axios.delete(path, { headers });
+      if (result.status >= 400) throw new Error(result.data.message);
+      return {
+        error: false,
+        response: result,
+        loading: false,
+      };
+    } catch (error) {
+      return {
+        error,
+        loading: false,
+      };
+    }
+  })();
+};
+
 const useFetch = {
   useGet: UseGet,
   usePost: UsePost,
+  useDelete: UseDelete,
 };
 
 export default useFetch;

@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ContainerComponent from '../../components/container';
 import NavbarComponent from '../../components/navbar';
 import SidebarComponent from '../../components/sidebar';
+import { CONTENT_URL } from '../../config/constant';
 import {
   allowOnlyNumber,
   escapeCharacters,
@@ -12,6 +13,8 @@ import useFetch from '../../hooks/useFetch';
 
 const FormAddBook = () => {
   const [sidebarActivated, setSidebarActivated] = useState(false);
+  const imageRef = useRef();
+  const coverRef = useRef();
   const navigate = useNavigate();
   const [payload, setPayload] = useState({
     title: '',
@@ -20,6 +23,7 @@ const FormAddBook = () => {
     currentPage: '',
     totalPage: '',
     description: '',
+    cover: null,
   });
   const [validate, setValidate] = useState({
     title: {
@@ -43,6 +47,10 @@ const FormAddBook = () => {
       message: '',
     },
     description: {
+      error: false,
+      message: '',
+    },
+    cover: {
       error: false,
       message: '',
     },
@@ -104,6 +112,7 @@ const FormAddBook = () => {
           publisher: '',
           title: '',
           totalPage: '',
+          cover: null,
         });
         navigate('/');
       })
@@ -121,12 +130,32 @@ const FormAddBook = () => {
             currentPage: { error: false, message: '' },
             totalPage: { error: false, message: '' },
             description: { error: false, message: '' },
+            cover: { error: false, message: '' },
           }),
 
         2000
       );
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [validate]);
+
+  const onClickImage = () => {
+    imageRef.current.click();
+  };
+
+  const onImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file.type.includes('image')) {
+      setValidate({
+        ...validate,
+        cover: { error: true, message: 'Only Allowed Image' },
+      });
+      return;
+    }
+    const previewImage = URL.createObjectURL(file);
+    coverRef.current.src = previewImage;
+    setPayload({ ...payload, cover: file });
+  };
 
   return (
     <>
@@ -147,6 +176,32 @@ const FormAddBook = () => {
           <div className="grid grid-cols-1 md:grid-cols-2">
             <form>
               <div className="flex flex-col gap-y-8">
+                <div className="flex flex-col gap-y-2">
+                  <label
+                    htmlFor="title"
+                    className="text-gray-400 font-medium text-md capitalize mb-2 rounded-sm"
+                  >
+                    book cover
+                  </label>
+                  <img
+                    src={`${CONTENT_URL}image/cover.jpg`}
+                    alt="cover"
+                    className="w-full object-cover h-auto cursor-pointer"
+                    onClick={onClickImage}
+                    ref={coverRef}
+                  />
+                  <input
+                    type="file"
+                    ref={imageRef}
+                    className="hidden"
+                    onChange={onImageChange}
+                  />
+                  {validate.cover.error && (
+                    <span className="text-xs text-red-600 font-medium">
+                      {validate.cover.message}
+                    </span>
+                  )}
+                </div>
                 <div className="flex flex-col gap-y-2">
                   <label
                     htmlFor="title"
