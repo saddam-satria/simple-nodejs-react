@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --open",
-    "build": "webpack --config webpack.prod.config.js",
+    "build": "webpack --config webpack.prod.config.js --mode=production",
     "lint:js": "eslint --ext .js",
     "lint": "eslint --fix src",
     "prettier": "prettier --write src/",

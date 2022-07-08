@@ -8,26 +8,26 @@ process.env.NODE_ENV = 'production';
 
 const rules = [
   {
-    test: /\.(css|scss)$/i,
+    test: /\.(css)$/i,
     use: [
-      {
-        loader: MiniCSSExtractPlugin.loader,
-      },
+      'style-loader',
       {
         loader: 'css-loader',
-        options: {
-          modules: {
-            auto: true,
-          },
-          sourceMap: true,
-          import: true,
-          importLoaders: 2,
-        },
       },
-
-      'sass-loader',
+      { loader: 'postcss-loader' },
     ],
-    exclude: /node_modules/,
+  },
+  {
+    test: /\.(scss)$/i,
+    use: [
+      'style-loader',
+      {
+        loader: 'css-loader',
+      },
+      'sass-loader',
+
+      { loader: 'postcss-loader' },
+    ],
   },
   {
     test: /\.(jsx|js)$/i,
@@ -78,7 +78,7 @@ module.exports = {
     publicPath: '/',
   },
   resolve: {
-    extensions: ['.jsx', '.js',],
+    extensions: ['.jsx', '.js'],
   },
   devtool: 'source-map',
   plugins: [
