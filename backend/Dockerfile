@@ -1,13 +1,44 @@
-FROM node:14.16-alpine
+# Build The NODE TS Code
+FROM node:16.14-alpine AS builder
 
-WORKDIR /app/server-node-ts
+WORKDIR /app/book-server
 
-COPY package*.json ./
+COPY package.json ./
+
+COPY prisma ./prisma
+
+COPY yarn.lock ./
 
 RUN yarn install
 
-COPY . ./
+COPY tsconfig.json ./
+
+COPY src ./src
+
+COPY public ./public
 
 RUN yarn run build
 
-CMD [ "yarn" , "start" ]
+
+# runner
+FROM node:16.14-alpine
+
+WORKDIR /app/book-server
+
+COPY package.json ./
+
+COPY yarn.lock ./
+
+COPY prisma ./prisma
+
+COPY public ./public
+
+RUN yarn install --production
+
+COPY --from=builder /app/book-server/build /app/book-server/build
+
+CMD [ "yarn", "start" ]
+
+
+
+
