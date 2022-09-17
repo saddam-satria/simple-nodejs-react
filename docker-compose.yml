@@ -5,7 +5,7 @@ services:
     image: mysql
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=Saddam1209*
+      - MYSQL_ROOT_PASSWORD=yourpasswd
       - MYSQL_DATABASE=booknote
     ports:
       - 3306:3306
