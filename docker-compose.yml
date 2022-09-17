@@ -20,7 +20,7 @@ services:
       - database_mysql
     environment:
       - PORT=5000
-      - DATABASE_URL=mysql://root:Saddam1209*@database_mysql/booknote?schema=public
+      - DATABASE_URL=MySQL_URI
     restart: always
   web_server:
     build:
